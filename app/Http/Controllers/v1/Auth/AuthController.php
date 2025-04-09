@@ -50,4 +50,16 @@ class AuthController extends Controller
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
     }
+
+    public function logout(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['status' => 'error', 'statusCode' => '401', 'message' => 'Not logged in.'], 401);
+        }
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Logout successful'], 200);
+    }
 }
