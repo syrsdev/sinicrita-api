@@ -41,7 +41,7 @@ class AuthController extends Controller
             }
 
             if (!Auth::attempt($credentials)) {
-                return response()->json(['status' => 'error', 'statusCode' => '401', 'message' => 'Login failed'], 401);
+                return response()->json(['status' => 'error', 'statusCode' => '401', 'message' => 'Username or Password is incorrect'], 401);
             }
 
             $request->session()->regenerate();
