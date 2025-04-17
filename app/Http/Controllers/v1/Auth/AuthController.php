@@ -18,7 +18,6 @@ class AuthController extends Controller
                 'password' => ['required'],
                 'role' => ['required'],
             ]);
-
             User::create($credentials);
 
             return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'User registration successful'], 200);
