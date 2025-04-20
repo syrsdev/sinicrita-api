@@ -15,7 +15,7 @@ class AuthController extends Controller
 
             $credentials = $request->validate([
                 'username' => ['required', 'unique:users,username'],
-                'password' => ['required'],
+                'password' => ['required', 'confirmed', 'min:8'],
                 'role' => ['required'],
             ]);
             User::create($credentials);
@@ -52,10 +52,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json(['status' => 'error', 'statusCode' => '401', 'message' => 'Not logged in.'], 401);
-        }
-        Auth::logout();
+        auth('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
