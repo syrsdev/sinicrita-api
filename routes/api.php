@@ -1,13 +1,24 @@
 <?php
 
 use App\Http\Controllers\v1\Auth\AuthController;
-use Illuminate\Auth\Events\Login;
+use App\Http\Controllers\v1\Post\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/v1/register', AuthController::class . '@register');
-Route::post('/v1/login', AuthController::class . '@login');
+Route::prefix('/v1')->group(function () {
+    Route::post('/register', AuthController::class . '@register');
+    Route::post('/login', AuthController::class . '@login');
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    })->middleware('auth:sanctum');
+    Route::post('/logout', AuthController::class . '@logout')->middleware('auth:sanctum');
+
+    Route::prefix('/post')->group(function () {
+        Route::get('/', [PostController::class, 'index']);
+        Route::post('/', [PostController::class, 'store']);
+        Route::get('/{id}', [PostController::class, 'show']);
+        Route::put('/{id}', [PostController::class, 'update']);
+        Route::delete('/{id}', [PostController::class, 'destroy']);
+    });
+});
