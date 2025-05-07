@@ -15,13 +15,13 @@ class PostController extends Controller
     public function index()
     {
         try {
-            $data = post::latest()->get();
+            $data = post::with('user')->orderBy('created_at', 'asc')->get();
 
             if (count($data) == 0) {
                 return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => "There's no post yet"], 404);
             }
 
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => $data], 200);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
