@@ -18,7 +18,7 @@ class PostController extends Controller
             $data = post::with('user')->orderBy('created_at', 'desc')->get();
 
             if (count($data) == 0) {
-                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => "There's no post yet"], 404);
+                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => "Belum ada post tersedia"], 404);
             }
 
             return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data], 200);
@@ -42,7 +42,7 @@ class PostController extends Controller
 
             post::create($credentials);
 
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Post created successfully'], 200);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dibuat'], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
@@ -55,9 +55,9 @@ class PostController extends Controller
     {
         $data = post::find($id);
         if ($data == null) {
-            return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Post not found'], 404);
+            return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
         }
-        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => $data], 200);
+        return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data], 200);
     }
 
     /**
@@ -68,7 +68,7 @@ class PostController extends Controller
         try {
             $data = post::find($id);
             if ($data == null) {
-                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Post not found'], 404);
+                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
             }
 
             $credentials = $request->validate([
@@ -77,7 +77,7 @@ class PostController extends Controller
 
             $data->update($credentials);
 
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Post updated successfully'], 200);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil diupdate'], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
@@ -90,9 +90,9 @@ class PostController extends Controller
     {
         $data = post::find($id);
         if ($data == null) {
-            return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Post not found'], 404);
+            return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
         }
         $data->delete();
-        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Post deleted successfully'], 200);
+        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dihapus'], 200);
     }
 }
