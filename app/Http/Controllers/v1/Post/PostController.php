@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         try {
-            $data = post::with('user')->orderBy('created_at', 'asc')->get();
+            $data = post::with('user')->orderBy('created_at', 'desc')->get();
 
             if (count($data) == 0) {
                 return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => "There's no post yet"], 404);
