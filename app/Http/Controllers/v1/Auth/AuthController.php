@@ -21,7 +21,7 @@ class AuthController extends Controller
             ]);
             User::create($credentials);
 
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'User registration successful'], 200);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Berhasil daftar'], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
@@ -37,15 +37,15 @@ class AuthController extends Controller
             $user = User::where('username', $credentials['username'])->first();
 
             if (!$user) {
-                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'User not found'], 404);
+                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'user tidak ditemukan'], 404);
             }
 
             if (!Auth::attempt($credentials)) {
-                return response()->json(['status' => 'error', 'statusCode' => '401', 'message' => 'Username or Password is incorrect'], 401);
+                return response()->json(['status' => 'error', 'statusCode' => '401', 'message' => 'Username atau Password salah'], 401);
             }
 
             $request->session()->regenerate();
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Login successful'], 200);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Login berhasil'], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
@@ -57,6 +57,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Logout successful'], 200);
+        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Logout berhasil'], 200);
     }
 }
