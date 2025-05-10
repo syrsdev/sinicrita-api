@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
+            $table->longText('content');
             $table->enum('status', ['dibuat', 'selesai'])->default('dibuat');
             $table->foreignId('user_id')->constrained();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

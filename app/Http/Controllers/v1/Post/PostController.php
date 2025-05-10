@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1\Post;
 use App\Http\Controllers\Controller;
 use App\Models\post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -38,8 +38,6 @@ class PostController extends Controller
                 'user_id' => 'required'
             ]);
 
-            // $credentials['user_id'] = Auth::user()->id;
-
             post::create($credentials);
 
             return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dibuat'], 200);
@@ -51,9 +49,9 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $data = post::find($id);
+        $data = post::with('user')->where('slug', $slug)->first();
         if ($data == null) {
             return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
         }
@@ -63,10 +61,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $slug)
     {
         try {
-            $data = post::find($id);
+            $data = post::where('slug', $slug)->get();
+
             if ($data == null) {
                 return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
             }
@@ -74,6 +73,9 @@ class PostController extends Controller
             $credentials = $request->validate([
                 'content' => 'required',
             ]);
+
+            $credentials['slug'] = Str::slug($credentials['content']);
+
 
             $data->update($credentials);
 
@@ -86,9 +88,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $slug)
     {
-        $data = post::find($id);
+        $data = post::where('slug', $slug)->get();
+
         if ($data == null) {
             return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
         }
