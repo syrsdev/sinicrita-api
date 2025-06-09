@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,10 +13,15 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($user)
     {
         try {
-            $data = post::with('user')->orderBy('created_at', 'desc')->get();
+            $getUser = User::where('username', $user)->first();
+            if ($getUser->role == 'pencerita') {
+                $data = post::with('user')->where('user_id', $getUser->id)->orderBy('created_at', 'desc')->get();
+            } else {
+                $data = post::with('user')->orderBy('created_at', 'desc')->get();
+            }
 
             if (count($data) == 0) {
                 return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => "Belum ada post tersedia"], 404);

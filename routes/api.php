@@ -17,7 +17,7 @@ Route::prefix('/v1')->group(function () {
         Route::post('/logout', AuthController::class . '@logout');
 
         Route::prefix('/post')->group(function () {
-            Route::get('/', [PostController::class, 'index']);
+            Route::get('/{user}', [PostController::class, 'index']);
             Route::post('/', [PostController::class, 'store']);
             Route::get('/{slug}', [PostController::class, 'show']);
             Route::put('/{slug}', [PostController::class, 'update']);
