@@ -70,7 +70,7 @@ class PostController extends Controller
     public function update(Request $request, string $slug)
     {
         try {
-            $data = post::where('slug', $slug)->get();
+            $data = post::where('slug', $slug)->first();
 
             if ($data == null) {
                 return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
@@ -96,7 +96,7 @@ class PostController extends Controller
      */
     public function destroy(string $slug)
     {
-        $data = post::where('slug', $slug)->get();
+        $data = post::where('slug', $slug)->first();
 
         if ($data == null) {
             return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
