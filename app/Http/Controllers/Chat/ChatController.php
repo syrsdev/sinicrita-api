@@ -53,8 +53,7 @@ class ChatController extends Controller
     {
         try {
             $data = chat_session::where('user1_id', $user_id)
-                ->orWhere('user2_id', $user_id)
-                ->get();
+                ->orWhere('user2_id', $user_id)->with('user1', 'user2')->get();
 
             return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data]);
         } catch (\Exception $e) {
