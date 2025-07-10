@@ -17,12 +17,33 @@ class ChatController extends Controller
                 'user2_id' => 'required|exists:users,id',
             ]);
 
-            if ($credentials['user1_id'] != $credentials['user2_id']) {
-                $session = chat_session::create($credentials);
-                event(new SessionCreated($session));
+            $existingSession = chat_session::where(function ($query) use ($credentials) {
+                $query->where('user1_id', $credentials['user1_id'])
+                    ->where('user2_id', $credentials['user2_id']);
+            })->orWhere(function ($query) use ($credentials) {
+                $query->where('user1_id', $credentials['user2_id'])
+                    ->where('user2_id', $credentials['user1_id']);
+            })->first();
+
+            if ($credentials['user1_id'] === $credentials['user2_id']) {
+                return response()->json([
+                    'status' => 'error',
+                    'statusCode' => 400,
+                    'message' => 'Tidak bisa membuat sesi dengan diri sendiri.',
+                ], 400);
             }
 
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Anda sudah bisa berinteraksi langsung', 'session_id' => $session->id]);
+            if ($existingSession) {
+                return response()->json([
+                    'status' => 'success',
+                    'statusCode' => 301,
+                    'id' => $existingSession->id,
+                ], 301);
+            }
+            $session = chat_session::create($credentials);
+            event(new SessionCreated($session));
+
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Anda sudah bisa mengirim pesan', 'data' => $session]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $e->getMessage()], 500);
         }
