@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    public function sessions()
+    {
+        return $this->hasMany(chat_session::class);
+    }
 }
