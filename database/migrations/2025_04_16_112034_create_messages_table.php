@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('session_id')->references('id')->on('chat_sessions');
             $table->foreign('sender_id')->references('id')->on('users');
             $table->text('message');
-            $table->foreignId('post_id')->constrained();
+            $table->foreignId('post_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
