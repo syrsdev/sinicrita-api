@@ -62,23 +62,13 @@ class ChatController extends Controller
         }
     }
 
-    public function getChatSession($id)
-    {
-        try {
-            $data = chat_session::where('id', $id)
-                ->with('user1', 'user2')->first();
-
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $e->getMessage()], 500);
-        }
-    }
-
     public function detailChat($session_id)
     {
         try {
+            $session = chat_session::where('id', $session_id)
+                ->with('user1', 'user2')->first();
             $data = messages::where('session_id', $session_id)->with('user', 'post')->orderBy('created_at', 'asc')->get();
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data]);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => ['chat' => $data, 'session' => $session]]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $e->getMessage()], 500);
         }
