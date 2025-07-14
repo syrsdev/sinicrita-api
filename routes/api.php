@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Chat\ChatController;
+// use App\Http\Controllers\v1\Chat\ChatController;
 use App\Http\Controllers\v1\Auth\AuthController;
+use App\Http\Controllers\v1\Chat\ChatController;
 use App\Http\Controllers\v1\Post\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;

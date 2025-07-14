@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Chat;
+namespace App\Http\Controllers\v1\Chat;
 
 use App\Events\SessionCreated;
 use App\Http\Controllers\Controller;
