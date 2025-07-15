@@ -32,7 +32,7 @@ class SessionCreated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            // new PrivateChannel('user.' . $this->session->user1_id),
+            new PrivateChannel('user.' . $this->session->user1_id),
             new PrivateChannel('user.' . $this->session->user2_id),
         ];
     }
