@@ -33,6 +33,7 @@ Route::prefix('/v1')->group(function () {
             Route::post('/session', [ChatController::class, 'createSession']);
             Route::get('/list/{user_id}', [ChatController::class, 'listChat']);
             Route::get('/detail/{session_id}', [ChatController::class, 'detailChat']);
+            Route::post('/message', [ChatController::class, 'sendMessage']);
         });
     });
 });

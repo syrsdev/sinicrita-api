@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\v1\Chat;
 
+use App\Events\MessageSent;
 use App\Events\SessionCreated;
 use App\Http\Controllers\Controller;
 use App\Models\chat_session;
 use App\Models\messages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -69,6 +71,30 @@ class ChatController extends Controller
                 ->with('user1', 'user2')->first();
             $data = messages::where('session_id', $session_id)->with('user', 'post')->orderBy('created_at', 'asc')->get();
             return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => ['chat' => $data, 'session' => $session]]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function sendMessage(Request $request)
+    {
+        try {
+            $credentials = $request->validate([
+                'session_id' => 'required|exists:chat_sessions,id',
+                'sender_id' => 'required|exists:users,id',
+                'message' => 'required',
+                'post_id' => 'nullable|exists:posts,id',
+            ]);
+
+            $session = chat_session::where('id', $credentials['session_id'])->first();
+
+            $message = messages::create($credentials);
+            $session->touch();
+
+            broadcast(new MessageSent($message));
+            broadcast(new SessionCreated($session));
+
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $message]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $e->getMessage()], 500);
         }

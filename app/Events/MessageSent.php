@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,9 +20,9 @@ class MessageSent
     /**
      * Create a new event instance.
      */
-    public function __construct(messages $message)
+    public function __construct($message)
     {
-        $this->message = $message->load('sender');
+        $this->message = $message;
     }
 
     /**
@@ -35,14 +35,15 @@ class MessageSent
         return [new PrivateChannel('chat.' . $this->message->session_id)];
     }
 
-    public function broadcastWith()
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+
+    public function broadcastAs()
     {
-        return [
-            'id' => $this->message->id,
-            'message' => $this->message->message,
-            'sender_id' => $this->message->sender_id,
-            'sender_name' => $this->message->sender->name,
-            'created_at' => $this->message->created_at->toISOString(),
-        ];
+        return 'MessageSent';
     }
 }
