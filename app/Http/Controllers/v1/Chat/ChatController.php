@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\chat_session;
 use App\Models\messages;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
