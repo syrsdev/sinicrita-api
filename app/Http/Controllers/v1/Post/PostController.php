@@ -23,10 +23,6 @@ class PostController extends Controller
                 $data = post::with('user')->orderBy('created_at', 'desc')->get();
             }
 
-            if (count($data) == 0) {
-                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => "Belum ada post tersedia"], 404);
-            }
-
             return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
