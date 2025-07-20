@@ -44,7 +44,7 @@ class AuthController extends Controller
             }
 
             $request->session()->regenerate();
-            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Login berhasil'], 200);
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Login berhasil', 'role' => $user->role], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
