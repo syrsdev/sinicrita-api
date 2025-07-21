@@ -1,6 +1,8 @@
 <?php
 
 // use App\Http\Controllers\v1\Chat\ChatController;
+
+use App\Http\Controllers\Dashboard\UsersController;
 use App\Http\Controllers\v1\Auth\AuthController;
 use App\Http\Controllers\v1\Chat\ChatController;
 use App\Http\Controllers\v1\Post\PostController;
@@ -29,11 +31,19 @@ Route::prefix('/v1')->group(function () {
             Route::put('/detail/{slug}', [PostController::class, 'update']);
             Route::delete('/detail/{slug}/delete', [PostController::class, 'destroy']);
         });
+
         Route::prefix('/chat')->group(function () {
             Route::post('/session', [ChatController::class, 'createSession']);
             Route::get('/list/{user_id}', [ChatController::class, 'listChat']);
             Route::get('/detail/{session_id}', [ChatController::class, 'detailChat']);
             Route::post('/message', [ChatController::class, 'sendMessage']);
+        });
+
+        Route::prefix('/dashboard')->group(function () {
+            Route::prefix('/users')->group(function () {
+                Route::get('/', [UsersController::class, 'index']);
+                Route::delete('/{username}/delete', [UsersController::class, 'destroy']);
+            });
         });
     });
 });
