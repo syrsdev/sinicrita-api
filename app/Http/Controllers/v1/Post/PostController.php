@@ -92,12 +92,36 @@ class PostController extends Controller
      */
     public function destroy(string $slug)
     {
-        $data = post::where('slug', $slug)->first();
+        try {
+            $data = post::where('slug', $slug)->first();
 
-        if ($data == null) {
-            return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
+            if ($data == null) {
+                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
+            }
+            $data->delete();
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dihapus'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
-        $data->delete();
-        return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dihapus'], 200);
+    }
+    public function updateStatus(Request $request, string $slug)
+    {
+        try {
+            $credentials = $request->validate([
+                'status' => 'required',
+            ]);
+
+            $data = post::where('slug', $slug)->first();
+
+            if ($data == null) {
+                return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'Cerita tidak ditemukan'], 404);
+            }
+
+            $data->status = $credentials['status'];
+            $data->save();
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dihapus'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
+        }
     }
 }

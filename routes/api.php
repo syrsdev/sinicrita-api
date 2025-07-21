@@ -30,6 +30,7 @@ Route::prefix('/v1')->group(function () {
             Route::get('/detail/{slug}', [PostController::class, 'show']);
             Route::put('/detail/{slug}', [PostController::class, 'update']);
             Route::delete('/detail/{slug}/delete', [PostController::class, 'destroy']);
+            Route::put('/detail/{slug}/status', [PostController::class, 'updateStatus']);
         });
 
         Route::prefix('/chat')->group(function () {
