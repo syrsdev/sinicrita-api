@@ -19,6 +19,7 @@ Ini merupakan backend service(api) untuk platform sinicrita yang dibuat dan dike
 - etc
 
 ## 🔗 Frontend Link
+
 <https://github.com/syrsdev/sinicrita-web>
 
 ## Installation
