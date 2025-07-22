@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\v1\Post;
 
+use App\Events\SessionCreated;
 use App\Http\Controllers\Controller;
+use App\Models\chat_session;
 use App\Models\post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -119,6 +121,16 @@ class PostController extends Controller
 
             $data->status = $credentials['status'];
             $data->save();
+            $sessions = chat_session::where('post_id', $data->id)->get();
+
+            foreach ($sessions as $session) {
+                if ($session->post_id != null) {
+                    $session->post_id = null;
+                    $session->save();
+                    event(new SessionCreated($session));
+                }
+            }
+
             return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Cerita berhasil dihapus'], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
