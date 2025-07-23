@@ -5,7 +5,7 @@ Ini merupakan backend service(api) untuk platform sinicrita yang dibuat dan dike
 
 ## Tech Stack
 
-**Framework & Library:** Laravel 12 (sanctum, reverb)
+**Framework & Library:** PHP, Laravel 12 (sanctum, reverb)
 
 **Database:** MySQL
 
