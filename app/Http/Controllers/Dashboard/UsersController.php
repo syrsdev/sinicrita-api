@@ -26,6 +26,24 @@ class UsersController extends Controller
         }
     }
 
+
+    public function store(Request $request)
+    {
+        try {
+
+            $credentials = $request->validate([
+                'username' => ['required', 'unique:users,username'],
+                'password' => ['required', 'confirmed', 'min:8'],
+                'role' => ['required'],
+            ]);
+            User::create($credentials);
+
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'message' => 'Berhasil daftar'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -43,6 +43,7 @@ Route::prefix('/v1')->group(function () {
         Route::prefix('/dashboard')->group(function () {
             Route::prefix('/users')->group(function () {
                 Route::get('/', [UsersController::class, 'index']);
+                Route::post('/add', [UsersController::class, 'store']);
                 Route::delete('/{username}/delete', [UsersController::class, 'destroy']);
             });
         });
