@@ -2,7 +2,7 @@
 
 // use App\Http\Controllers\v1\Chat\ChatController;
 
-use App\Http\Controllers\Dashboard\UsersController;
+use App\Http\Controllers\v1\Dashboard\UsersController;
 use App\Http\Controllers\v1\Auth\AuthController;
 use App\Http\Controllers\v1\Chat\ChatController;
 use App\Http\Controllers\v1\Post\PostController;
