@@ -15,6 +15,6 @@ class messages extends Model
 
     function post()
     {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
+        return $this->belongsTo(post::class, 'post_id', 'id');
     }
 }
