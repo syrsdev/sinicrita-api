@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('session_id');
             $table->unsignedBigInteger('sender_id');
-            $table->foreign('session_id')->references('id')->on('chat_sessions');
+            $table->foreign('session_id')->references('id')->on('chat_sessions')->onDelete('cascade');
             $table->foreign('sender_id')->references('id')->on('users');
             $table->text('message');
             $table->boolean('is_read')->default(null)->nullable();
