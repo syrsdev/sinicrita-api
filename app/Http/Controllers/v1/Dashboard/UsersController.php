@@ -14,7 +14,7 @@ class UsersController extends Controller
     public function index()
     {
         try {
-            $data = User::all();
+            $data = User::where('role', '!=', 'admin')->get();
 
             if ($data == null) {
                 return response()->json(['status' => 'error', 'statusCode' => '404', 'message' => 'User tidak ditemukan'], 404);
