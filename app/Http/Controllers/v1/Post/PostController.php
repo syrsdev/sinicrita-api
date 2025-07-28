@@ -22,7 +22,7 @@ class PostController extends Controller
             if ($getUser->role == 'pencerita') {
                 $data = post::with('user')->where('user_id', $getUser->id)->orderBy('created_at', 'desc')->get();
             } else {
-                $data = post::with('user')->orderBy('created_at', 'desc')->get();
+                $data = post::with('user')->where('status', 'dibuat')->orderBy('created_at', 'desc')->get();
             }
 
             return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data], 200);
