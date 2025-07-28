@@ -5,6 +5,7 @@
 use App\Http\Controllers\v1\Dashboard\UsersController;
 use App\Http\Controllers\v1\Auth\AuthController;
 use App\Http\Controllers\v1\Chat\ChatController;
+use App\Http\Controllers\v1\Dashboard\DashboardController;
 use App\Http\Controllers\v1\Post\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
@@ -41,6 +42,7 @@ Route::prefix('/v1')->group(function () {
         });
 
         Route::prefix('/dashboard')->group(function () {
+            Route::get('/', [DashboardController::class, 'index']);
             Route::prefix('/users')->group(function () {
                 Route::get('/', [UsersController::class, 'index']);
                 Route::post('/add', [UsersController::class, 'store']);
