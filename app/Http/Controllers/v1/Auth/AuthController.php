@@ -17,6 +17,12 @@ class AuthController extends Controller
                 'username' => ['required', 'unique:users,username'],
                 'password' => ['required', 'confirmed', 'min:8'],
                 'role' => ['required'],
+            ], [
+                'username.required' => 'Username harus diisi',
+                'username.unique' => 'Username sudah digunakan',
+                'password.required' => 'Password harus diisi',
+                'password.confirmed' => 'Password tidak cocok',
+                'password.min' => 'Password minimal 8 karakter',
             ]);
             User::create($credentials);
 
@@ -31,6 +37,9 @@ class AuthController extends Controller
             $credentials = $request->validate([
                 'username' => ['required'],
                 'password' => ['required'],
+            ], [
+                'username.required' => 'Username harus diisi',
+                'password.required' => 'Password harus diisi',
             ]);
 
             $user = User::where('username', $credentials['username'])->first();
