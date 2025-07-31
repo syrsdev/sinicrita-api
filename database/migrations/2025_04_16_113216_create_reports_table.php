@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('reported_by')->references('id')->on('users');
             $table->foreign('reported_user')->references('id')->on('users');
             $table->longText('reasons');
+            $table->enum('type', ["user", "post"]);
             $table->timestamps();
         });
     }
