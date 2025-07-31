@@ -30,6 +30,19 @@ class PostController extends Controller
             return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
         }
     }
+    /**
+     * Display a listing of the resource.
+     */
+    public function guest()
+    {
+        try {
+            $data = post::with('user')->where('status', 'dibuat')->orderBy('created_at', 'desc')->get();
+
+            return response()->json(['status' => 'success', 'statusCode' => '200', 'data' => $data], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'error', 'statusCode' => '500', 'message' => $th->getMessage()], 500);
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
