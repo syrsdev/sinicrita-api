@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\v1\Dashboard\UsersController;
 use App\Http\Controllers\v1\Auth\AuthController;
+use App\Http\Controllers\v1\CallController;
 use App\Http\Controllers\v1\Chat\ChatController;
 use App\Http\Controllers\v1\Dashboard\DashboardController;
 use App\Http\Controllers\v1\Post\PostController;
@@ -40,6 +41,14 @@ Route::prefix('/v1')->group(function () {
             Route::get('/list/{user_id}', [ChatController::class, 'listChat']);
             Route::get('/detail/{session_id}', [ChatController::class, 'detailChat']);
             Route::post('/message', [ChatController::class, 'sendMessage']);
+        });
+
+        Route::prefix('call')->group(function () {
+            Route::post('/initiate', [CallController::class, 'initiate']);
+            Route::post('/{id}/ringing', [CallController::class, 'ringing']);
+            Route::post('/{id}/accept', [CallController::class, 'accept']);
+            Route::post('/{id}/end', [CallController::class, 'end']);
+            Route::post('/{id}/missed', [CallController::class, 'missed']);
         });
 
         Route::prefix('/dashboard')->group(function () {
