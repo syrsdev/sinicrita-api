@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('calls', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('chat_id');
-            $table->foreign('chat_id')->references('id')->on('chat_sessions');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->enum('status', ['ongoing', 'ended']);
+            $table->foreign('chat_id')->references('id')->on('chat_sessions')->onDelete('cascade');
+            $table->enum('status', [
+                'initiated', // baru dibuat oleh pemanggil
+                'ringing',   // sedang berdering di sisi penerima
+                'active',    // call sedang berlangsung
+                'ended',     // call selesai
+                'missed'     // tidak diangkat
+            ])->default('initiated');
+            $table->timestamps();
         });
     }
 
