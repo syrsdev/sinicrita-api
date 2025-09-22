@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Call extends Model
+class calls extends Model
 {
     protected $fillable = [
         'chat_id',
+        'start_time',
+        'end_time',
         'status'
     ];
 
