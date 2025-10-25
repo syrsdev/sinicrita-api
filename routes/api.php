@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\v1\Dashboard\UsersController;
 use App\Http\Controllers\v1\Auth\AuthController;
+use App\Http\Controllers\v1\Auth\PasswordController;
 use App\Http\Controllers\v1\Chat\CallController;
 use App\Http\Controllers\v1\Chat\ChatController;
 use App\Http\Controllers\v1\Dashboard\DashboardController;
@@ -26,6 +27,7 @@ Route::prefix('/v1')->group(function () {
             return $request->user();
         });
         Route::post('/logout', AuthController::class . '@logout');
+        Route::post('/change-password', PasswordController::class . '@ChangePassword');
 
         Route::prefix('/post')->group(function () {
             Route::get('/{user}', [PostController::class, 'index']);
